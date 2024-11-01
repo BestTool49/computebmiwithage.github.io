@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A responsive Compute BMI With Age with US and Metric units, featuring easy-to-use inputs and a color-coded pie chart for BMI results.">
+    <title>Compute BMI With Age - Quick and Easy BMI Calculation</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #2e2e2e; /* Dark gray background */
+            color: #f4f4f4;
+        }
+        header, footer {
+            background-color: #ffffff; /* White background for header and footer */
+            border: 2px solid #ff4b4b; /* Red border */
+            color: #333333;
+            padding: 15px;
+        }
+        #bmi-calculator {
+            max-width: 810px;
+            background-color: #3c3c3c; /* Dark gray background for calculator */
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+        .form-group label {
+            font-weight: bold;
+            color: #dddddd;
+        }
+        #result-section {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .btn-primary {
+            background-color: #ff4b4b;
+            border: none;
+        }
+        .btn-primary:hover {
+            background-color: #ff3333;
+        }
+        .chart-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        @media (max-width: 768px) {
+            #bmi-chart {
+                width: 100% !important;
+                height: auto !important;
+            }
+        }
+    </style>
+	
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sawarabi Mincho">
+<style>
+body {
+  font-family: "Sawarabi Mincho", serif;
+}
+</style>
+	
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="text-center">
+        <h1>Compute BMI With Age</h1>
+        
+    </header>
+
+    <!-- Main Calculator Section -->
+    <main class="container d-flex justify-content-center my-5">
+        <div id="bmi-calculator" class="text-center">
+            <!-- Toggle for Units -->
+            <div class="form-group">
+                <label for="unit-toggle">Select Unit:</label>
+                <select id="unit-toggle" class="form-control">
+                    <option value="us">US Units</option>
+                    <option value="metric">Metric Units</option>
+                </select>
+            </div>
+            
+            <!-- US Units Input -->
+            <div id="us-inputs" class="unit-inputs">
+                <div class="form-group">
+                    <label for="age-us">Age:</label>
+                    <input type="number" id="age-us" class="form-control" placeholder="Enter your age">
+                </div>
+                <div class="form-group">
+                    <label for="gender-us">Gender:</label>
+                    <select id="gender-us" class="form-control">
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Height:</label>
+                    <div class="form-row">
+                        <div class="col">
+                            <input type="number" id="height-feet" class="form-control" placeholder="Feet">
+                        </div>
+                        <div class="col">
+                            <input type="number" id="height-inches" class="form-control" placeholder="Inches">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="weight-lbs">Weight (pounds):</label>
+                    <input type="number" id="weight-lbs" class="form-control" placeholder="Pounds">
+                </div>
+            </div>
+            
+            <!-- Metric Units Input -->
+            <div id="metric-inputs" class="unit-inputs" style="display: none;">
+                <div class="form-group">
+                    <label for="age-metric">Age:</label>
+                    <input type="number" id="age-metric" class="form-control" placeholder="Enter your age">
+                </div>
+                <div class="form-group">
+                    <label for="gender-metric">Gender:</label>
+                    <select id="gender-metric" class="form-control">
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="height-cm">Height (cm):</label>
+                    <input type="number" id="height-cm" class="form-control" placeholder="Centimeters">
+                </div>
+                <div class="form-group">
+                    <label for="weight-kg">Weight (kg):</label>
+                    <input type="number" id="weight-kg" class="form-control" placeholder="Kilograms">
+                </div>
+            </div>
+            
+            <button onclick="calculateBMI()" class="btn btn-primary mt-3">Calculate BMI</button>
+
+            <!-- Result Section -->
+            <div id="result-section" class="mt-4">
+                <h2>BMI = <span id="bmi-result">?</span></h2>
+                <div class="chart-container">
+                    <canvas id="bmi-chart" width="300" height="163"></canvas>
+                </div>
+            </div>
+        </div>
+    </main>
+	
+	<section class="container my-5">
+    <h2 class="text-center">How to Use Compute BMI With Age</h2>
+    <p>
+        The Body Mass Index (BMI) is a valuable measure that helps assess whether an individual has a healthy body weight for their age, height, and gender. Using the Compute BMI With Age calculator is a simple and effective way to determine your BMI, taking age into consideration. This tool is especially beneficial as it allows users to input their age, providing a more tailored assessment of their body weight status.
+    </p>
+    <p>
+        To get started, select your gender and enter your age in the designated age box. Age is an important factor as body composition can change over time, affecting BMI readings. Next, choose the measurement units you prefer: US units (age in years, height in feet and inches, weight in pounds) or Metric units (age in years, height in centimeters, weight in kilograms). Once you’ve entered all the required information, click the “Calculate BMI” button to get your results.
+    </p>
+    <p>
+        The calculator will provide you with your BMI value displayed clearly on the screen. Additionally, you will see a pie chart that visually represents your BMI category: underweight, normal, overweight, or obesity. This visual aid makes it easier to understand your weight status at a glance. 
+    </p>
+    <p>
+        Understanding your BMI in the context of your age is essential for evaluating your health risks. It is advisable to use this calculator regularly and discuss your results with a healthcare professional, who can provide personalized guidance based on your age and overall health. 
+    </p>
+</section>
+
+<section class="container my-5">
+    <h2 class="text-center">Benefits of Compute BMI With Age</h2>
+    <p>
+        Understanding your Body Mass Index (BMI) is an essential aspect of maintaining a healthy lifestyle. The Compute BMI With Age calculator not only provides an easy way to calculate BMI but also emphasizes the importance of considering age in the evaluation of body weight. Here are some key benefits of using this calculator:
+    </p>
+    <h3>1. Tailored Health Assessment</h3>
+    <p>
+        By incorporating age into the BMI calculation, this tool offers a more personalized health assessment. Body composition and the distribution of fat can change significantly as we age, making it vital to understand how these changes affect BMI readings. This calculator helps you to gain insights that are more relevant to your specific age group.
+    </p>
+    <h3>2. Identification of Health Risks</h3>
+    <p>
+        Different age groups face varying health risks associated with their BMI. For example, older adults may have different fat distribution patterns compared to younger individuals. By using the Compute BMI With Age calculator, users can better identify potential health risks related to underweight, overweight, or obesity, leading to timely interventions.
+    </p>
+    <h3>3. Encouragement for Healthy Living</h3>
+    <p>
+        Understanding your BMI in the context of your age can motivate individuals to adopt healthier lifestyle choices. With a clearer picture of their health status, users may be inspired to engage in regular physical activity, maintain a balanced diet, and seek advice from healthcare professionals for age-appropriate wellness strategies.
+    </p>
+    <h3>4. Simple and Accessible</h3>
+    <p>
+        The Compute BMI With Age calculator is user-friendly and accessible to anyone, regardless of their familiarity with health metrics. Its straightforward design allows users to quickly input their information and receive immediate feedback on their BMI, making it an invaluable tool for anyone seeking to monitor their health.
+    </p>
+    <h3>5. Regular Monitoring</h3>
+    <p>
+        Regularly using the BMI calculator can help individuals track their health progress over time. This ongoing monitoring can be particularly useful for understanding how lifestyle changes, such as diet and exercise, impact BMI throughout different life stages. 
+    </p>
+    <p>
+        In conclusion, the Compute BMI With Age calculator is a powerful tool that not only calculates BMI but also provides critical insights into the user's health. By considering age in the equation, users can make more informed decisions about their health and wellness journey.
+    </p>
+</section>
+
+
+    <!-- Footer -->
+    <footer class="text-center">
+        <p>&copy; 2024 Compute BMI With Age | Designed for Fitness Awareness</p>
+    </footer>
+
+    <script>
+        document.getElementById("unit-toggle").addEventListener("change", function () {
+            let unit = this.value;
+            document.getElementById("us-inputs").style.display = unit === "us" ? "block" : "none";
+            document.getElementById("metric-inputs").style.display = unit === "metric" ? "block" : "none";
+        });
+
+        function calculateBMI() {
+            let unit = document.getElementById("unit-toggle").value;
+            let bmi = 0;
+
+            if (unit === "us") {
+                let heightFeet = parseFloat(document.getElementById("height-feet").value) || 0;
+                let heightInches = parseFloat(document.getElementById("height-inches").value) || 0;
+                let weightLbs = parseFloat(document.getElementById("weight-lbs").value) || 0;
+                let heightInInches = (heightFeet * 12) + heightInches;
+                bmi = (weightLbs / (heightInInches * heightInInches)) * 703;
+            } else {
+                let heightCm = parseFloat(document.getElementById("height-cm").value) || 0;
+                let weightKg = parseFloat(document.getElementById("weight-kg").value) || 0;
+                let heightM = heightCm / 100;
+                bmi = weightKg / (heightM * heightM);
+            }
+
+            bmi = Math.round(bmi * 10) / 10;
+            document.getElementById("bmi-result").innerText = bmi;
+            displayChart(bmi);
+        }
+
+        function displayChart(bmi) {
+            const ctx = document.getElementById("bmi-chart").getContext("2d");
+
+            const data = {
+                labels: ['Underweight', 'Normal', 'Overweight', 'Obesity'],
+                datasets: [{
+                    data: [bmi <= 18.5 ? bmi : 0, (bmi > 18.5 && bmi <= 24.9) ? bmi : 0, (bmi >= 25 && bmi <= 29.9) ? bmi : 0, bmi >= 30 ? bmi : 0],
+                    backgroundColor: ['#ffcccb', '#98fb98', '#ffd700', '#ff6347']
+                }]
+            };
+
+            if (window.bmiChart) window.bmiChart.destroy();
+
+            window.bmiChart = new Chart(ctx, {
+                type: 'pie',
+                data: data,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>
